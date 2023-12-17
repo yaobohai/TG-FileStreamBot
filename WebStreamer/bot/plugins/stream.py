@@ -28,10 +28,10 @@ from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
     group=4,
 )
 
-# def replace_context(url):
-#     resource_url = url.replace("https://tele-stream-bot.init.ac:443/", "http://tele-stream-bot.private.svc.cluster.local:443/")
-#     resource_name = re.search(r'\/([^\/]+)\?', url).group(1)
-#     return resource_url, resource_name.split('?')[0]
+def replace_context(url):
+    resource_url = url.replace("https://tele-stream-bot.init.ac:443/", "http://tele-stream-bot.private.svc.cluster.local:443/")
+    resource_name = re.search(r'\/([^\/]+)\?', url).group(1)
+    return resource_url, resource_name.split('?')[0]
 
 def download_task(name, url):
     headers = {
@@ -56,8 +56,9 @@ async def media_receive_handler(_, m: Message):
     stream_link = f"{Var.URL}{log_msg.id}/{quote_plus(get_name(m))}?hash={file_hash}"
     short_link = f"{Var.URL}{file_hash}{log_msg.id}"
     logger.info(f"Generated link: {stream_link} for {m.from_user.first_name}")
-    if Var.AUTO_SAVE == 'True':
-        download_task("auto-demo.mp4",stream_link)
+    internal_url, resource_name = replace_context(stream_link)
+    download_task(resource_name, internal_url)
+
     try:
         await m.reply_text(
             text="<code>{}</code>\n(<a href='{}'>shortened</a>)".format(
