@@ -28,10 +28,10 @@ from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
     group=4,
 )
 
-def replace_context(url):
-    resource_url = url.replace("https://tele-stream-bot.init.ac:443/", "http://tele-stream-bot.private.svc.cluster.local:443/")
-    resource_name = re.search(r'\/([^\/]+)\?', url).group(1)
-    return resource_url, resource_name.split('?')[0]
+# def replace_context(url):
+#     resource_url = url.replace("https://tele-stream-bot.init.ac:443/", "http://tele-stream-bot.private.svc.cluster.local:443/")
+#     resource_name = re.search(r'\/([^\/]+)\?', url).group(1)
+#     return resource_url, resource_name.split('?')[0]
 
 def download_task(name, url):
     headers = {
