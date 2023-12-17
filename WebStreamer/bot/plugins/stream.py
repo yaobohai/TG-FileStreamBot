@@ -56,8 +56,6 @@ async def media_receive_handler(_, m: Message):
     stream_link = f"{Var.URL}{log_msg.id}/{quote_plus(get_name(m))}?hash={file_hash}"
     short_link = f"{Var.URL}{file_hash}{log_msg.id}"
     logger.info(f"Generated link: {stream_link} for {m.from_user.first_name}")
-    internal_url, resource_name = replace_context(stream_link)
-    download_task(resource_name, internal_url)
 
     try:
         await m.reply_text(
@@ -78,3 +76,8 @@ async def media_receive_handler(_, m: Message):
             quote=True,
             parse_mode=ParseMode.HTML,
         )
+
+    # download task
+    if Var.AUTO_SAVE == True:
+        internal_url, resource_name = replace_context(stream_link)
+        download_task(resource_name, internal_url)
