@@ -45,10 +45,10 @@ from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 #     }
 #     response = requests.post(Var.SAVE_SERVER, headers=headers, json=data)
 
-    if response.status_code == 200:
-        logger.info(f"提交下载任务成功: {name},状态码: {response.status_code}")
-    else:
-        logger.info(f"提交下载任务失败: {name},状态码: {response.status_code}")
+    # if response.status_code == 200:
+    #     logger.info(f"提交下载任务成功: {name},状态码: {response.status_code}")
+    # else:
+    #     logger.info(f"提交下载任务失败: {name},状态码: {response.status_code}")
 
 async def media_receive_handler(_, m: Message):
     if Var.ALLOWED_USERS and not ((str(m.from_user.id) in Var.ALLOWED_USERS) or (m.from_user.username in Var.ALLOWED_USERS)):
