@@ -59,9 +59,9 @@ async def media_receive_handler(_, m: Message):
     short_link = f"{Var.URL}{file_hash}{log_msg.id}"
     logger.info(f"Generated link: {stream_link} for {m.from_user.first_name}")
     if Var.AUTO_SAVE == 'True':
-        print(stream_link)
-        url = replace_context(stream_link)
-        download_task(url[1], url[0])
+        print(f"获取的url: {stream_link}")
+        # url = replace_context(stream_link)
+        # download_task(url[1], url[0])
     try:
         await m.reply_text(
             text="<code>{}</code>\n(<a href='{}'>shortened</a>)".format(
