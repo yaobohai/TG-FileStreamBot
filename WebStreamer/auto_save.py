@@ -1,6 +1,7 @@
 import re
-import requests
 import logging
+import requests
+from WebStreamer.vars import Var
 
 logger = logging.getLogger(__name__)
 
@@ -11,14 +12,14 @@ def download_task(url):
 
     resource_name = resource_name.split('?')[0]
     headers = {
-        'cookie': 'connect.sid=s%3AXDax-Pgemsnj4yMvOcBJjb2biCwKTlrt.4ZfR0TCYlwUogvrPlEnxKLdRj91Ws9fzvHTQBR4ABak'
+        'cookie': f'connect.sid={Var.SAVE_TOKEN}'
     }
     data = {
         'name': resource_name,
         'URL': resource_url
     }
 
-    response = requests.post('https://init.ac/api/tasks', headers=headers, json=data)
+    response = requests.post(f'{Var.SAVE_SERVER}/api/tasks', headers=headers, json=data)
 
     if response.status_code == 200:
         logger.info(f"提交下载任务成功: {resource_name},状态码: {response.status_code}")
