@@ -33,17 +33,17 @@ from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 #     resource_name = re.search(r'\/([^\/]+)\?', url).group(1)
 #     return resource_url, resource_name.split('?')[0]
 
-def download_task(name, url):
-    headers = {
-        'authority': Var.SAVE_SERVER,
-        'cookie': 'connect.sid=s%3AXDax-Pgemsnj4yMvOcBJjb2biCwKTlrt.4ZfR0TCYlwUogvrPlEnxKLdRj91Ws9fzvHTQBR4ABak'
-    }
-
-    data = {
-        'name': name,
-        'URL': url
-    }
-    response = requests.post(Var.SAVE_SERVER, headers=headers, json=data)
+# def download_task(name, url):
+#     headers = {
+#         'authority': Var.SAVE_SERVER,
+#         'cookie': 'connect.sid=s%3AXDax-Pgemsnj4yMvOcBJjb2biCwKTlrt.4ZfR0TCYlwUogvrPlEnxKLdRj91Ws9fzvHTQBR4ABak'
+#     }
+#
+#     data = {
+#         'name': name,
+#         'URL': url
+#     }
+#     response = requests.post(Var.SAVE_SERVER, headers=headers, json=data)
 
     if response.status_code == 200:
         logger.info(f"提交下载任务成功: {name},状态码: {response.status_code}")
