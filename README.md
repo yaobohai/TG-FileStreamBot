@@ -1,4 +1,8 @@
-### Host it on VPS or Locally
+## TG-FileStreamBot
+
+部署该服务,实现通过转发文件给Bot的形式返回文件直链,更方便的将TG的内容共享&下载。
+
+### 部署服务
 
 ```sh
 git clone https://github.com/EverythingSuckz/TG-FileStreamBot
