@@ -206,3 +206,10 @@ async def media_receive_handler(_, m: Message):
     ...
     download_task(stream_link)
 ```
+
+运行日志
+
+```log
+[18/12/2023 04:33:37][bot][INFO] ==> Generated link: https://tele-stream-bot.init.ac:443/454/video-2023-12-18_04-33-37.mp4?hash=b914ad for moment
+[18/12/2023 04:33:37][WebStreamer.auto_save][INFO] ==> 提交下载任务成功: video-2023-12-18_04-33-37.mp4,状态码: 200
+```
