@@ -157,3 +157,52 @@ you may also add as many as bots you want. (max limit is not tested yet)
 `/start` : To check if the bot is alive or not.
 
 To get an instant stream link, just forward any media to the bot and boom, the bot instantly replies a direct link to that Telegram media message.
+
+### 集成其他平台
+
+> 其作用：例如将生成的url传递给其他平台，做到自动下载的功能。
+
+WebStreamer下新建你的脚本，例如:`WebStreamer/auto_save.py` 通过POST将Bot返回的连接提交下载任务
+```python
+import re
+import logging
+import requests
+from WebStreamer.vars import Var
+
+logger = logging.getLogger(__name__)
+
+def download_task(url):
+
+    resource_url = url
+    resource_name = re.search(r'\/([^\/]+)\?', url).group(1)
+
+    resource_name = resource_name.split('?')[0]
+    headers = {
+        'cookie': f'connect.sid={Var.SAVE_TOKEN}'
+    }
+    data = {
+        'name': resource_name,
+        'URL': resource_url
+    }
+
+    response = requests.post(f'{Var.SAVE_SERVER}/api/tasks', headers=headers, json=data)
+
+    if response.status_code == 200:
+        logger.info(f"提交下载任务成功: {resource_name},状态码: {response.status_code}")
+    else:
+        logger.info(f"提交下载任务失败: {resource_name},状态码: {response.status_code}")
+```
+
+在`WebStreamer/bot/plugins/stream.py`中使用上述方法
+
+```python
+# 导入方法
+from WebStreamer.auto_save import download_task
+
+# 调用download_task
+async def media_receive_handler(_, m: Message):
+    ...
+    stream_link = f"{Var.URL}{log_msg.id}/{quote_plus(get_name(m))}?hash={file_hash}"
+    ...
+    download_task(stream_link)
+```
