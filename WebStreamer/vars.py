@@ -22,7 +22,7 @@ class Var(object):
     BIND_ADDRESS = str(environ.get("WEB_SERVER_BIND_ADDRESS", "0.0.0.0"))
     AUTO_SAVE = str(environ.get("AUTO_SAVE", "False"))
     SAVE_SERVER = str(environ.get("SAVE_SERVER", "http://steam-download.private.svc.cluster.local:80"))
-    SAVE_TOKEN = str(environ.get("SAVE_TOKEN", "xxxxxx"))
+    SAVE_SERVER_PASSWORD = str(environ.get("SAVE_SERVER_PASSWORD", "xxxxxx"))
     PING_INTERVAL = int(environ.get("PING_INTERVAL", "1200"))  # 20 minutes
     HAS_SSL = str(environ.get("HAS_SSL", "0").lower()) in ("1", "true", "t", "yes", "y")
     NO_PORT = str(environ.get("NO_PORT", "0").lower()) in ("1", "true", "t", "yes", "y")
