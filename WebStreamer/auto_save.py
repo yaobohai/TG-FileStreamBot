@@ -14,8 +14,8 @@ def login():
     try:
         salt_data = salt_response.json()
     except json.JSONDecodeError:
-        print('没有返回有效的JSON数据,请检查服务地址是否正确')
-        print(f'请求状态码: {salt_response.status_code} 返回响应体:\n{salt_response.text}')
+        logger.error('没有返回有效的JSON数据,请检查服务地址是否正确')
+        logger.error(f'请求状态码: {salt_response.status_code} 返回响应体:\n{salt_response.text}')
         return 1
 
     salt_id = salt_data['saltID']
@@ -41,7 +41,7 @@ def login():
     if session_data.get('code') == 0:
         return connect_sid
     else:
-        print('登录失败,请检查密码或服务地址是否正确');return 1
+        logger.error('登录失败,请检查密码或服务地址是否正确');return 1
 
 def download_task(url):
     connect_sid = login()
