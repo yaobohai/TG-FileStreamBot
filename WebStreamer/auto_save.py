@@ -1,14 +1,25 @@
+# This file is a module integrated into TG FileStreamBot
+# Used to submit the generated file URL to a third-party platform for automatic file download
+# Applicable platforms: https://github.com/ordosx/remote-downloader
+
 import re
 import json
 import logging
 import hashlib
 import requests
 from urllib.parse import unquote
+# load varsfile
 from WebStreamer.vars import Var
 
 logger = logging.getLogger(__name__)
 
 def login():
+    '''
+    input env :  SAVE_SERVER(remote-downloader服务地址)
+    input env :  SAVE_SERVER_PASSWORD(remote-downloader服务密码)
+    output: connect.sid
+    '''
+
     # 获取盐值
     salt_response = requests.get(f'{Var.SAVE_SERVER}/api/salt')
     try:
@@ -44,6 +55,12 @@ def login():
         logger.error('登录失败,请检查密码或服务地址是否正确');return 1
 
 def download_task(url):
+    '''
+    input: url
+    output: None
+    '''
+
+    # 提交下载任务
     connect_sid = login()
     resource_url = url.replace("https://tele-stream-bot.init.ac:443/", "http://tele-stream-bot.private.svc.cluster.local:443/")
 

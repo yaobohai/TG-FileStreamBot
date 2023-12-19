@@ -20,6 +20,7 @@ class Var(object):
     )  # you NEED to use a CHANNEL when you're using MULTI_CLIENT
     PORT = int(environ.get("PORT", 8080))
     BIND_ADDRESS = str(environ.get("WEB_SERVER_BIND_ADDRESS", "0.0.0.0"))
+    # file auto save
     AUTO_SAVE = str(environ.get("AUTO_SAVE", "False"))
     SAVE_SERVER = str(environ.get("SAVE_SERVER", "http://steam-download.private.svc.cluster.local:80"))
     SAVE_SERVER_PASSWORD = str(environ.get("SAVE_SERVER_PASSWORD", "xxxxxx"))
