@@ -81,4 +81,4 @@ def download_task(url):
     if response.status_code == 200:
         logger.info(f"提交下载任务成功: {resource_name},状态码: {response.status_code}")
     else:
-        logger.info(f"提交下载任务失败: {resource_name},状态码: {response.status_code}")
+        logger.error(f"提交下载任务失败: {resource_name},状态码: {response.status_code}")
