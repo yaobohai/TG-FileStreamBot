@@ -4,6 +4,7 @@
 
 import re
 import json
+import sys
 import logging
 import hashlib
 import requests
@@ -25,9 +26,8 @@ def login():
     try:
         salt_data = salt_response.json()
     except json.JSONDecodeError:
-        logger.error('没有返回有效的JSON数据,请检查服务地址是否正确')
-        logger.error(f'请求状态码: {salt_response.status_code} 返回响应体:\n{salt_response.text}')
-        return 1
+        logger.error(f"没有返回有效的JSON数据,请检查服务地址是否正确;请求状态码: {salt_response.status_code} 返回响应体:\n{salt_response.text}")
+        sys.exit(1)
 
     salt_id = salt_data['saltID']
     salt = salt_data['salt']
@@ -42,17 +42,15 @@ def login():
         'password': salted_password
     }
 
-    # 发送登录请求
     session_response = requests.post(f'{Var.SAVE_SERVER}/api/session', json=login_data)
-
-    # 提取登录信息
     session_data = session_response.json()
     connect_sid = session_response.cookies.get('connect.sid', None)
 
     if session_data.get('code') == 0:
         return connect_sid
     else:
-        logger.error('登录失败,请检查密码或服务地址是否正确');return 1
+        logger.error('登录失败,请检查密码或服务地址是否正确')
+        sys.exit(1)
 
 def download_task(url):
     '''
@@ -81,4 +79,4 @@ def download_task(url):
     if response.status_code == 200:
         logger.info(f"提交下载任务成功: {resource_name},状态码: {response.status_code}")
     else:
-        logger.info(f"提交下载任务失败: {resource_name},状态码: {response.status_code}")
+        logger.error(f"提交下载任务失败: {resource_name},状态码: {response.status_code}")
