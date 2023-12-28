@@ -162,6 +162,17 @@ To get an instant stream link, just forward any media to the bot and boom, the b
 
 > 其作用：例如将生成的url传递给其他平台，做到自动下载的功能。
 
+
+在`WebStreamer/vars.py`的Var类中维护你的变量模板；以便从env读取配置，例如：
+
+```python
+class Var(object):
+    # file auto save
+    AUTO_SAVE = str(environ.get("AUTO_SAVE", "False"))
+    SAVE_SERVER = str(environ.get("SAVE_SERVER", "http://steam-download.private.svc.cluster.local:80"))
+    SAVE_SERVER_PASSWORD = str(environ.get("SAVE_SERVER_PASSWORD", "xxxxxx"))
+```
+
 WebStreamer下新建你的脚本，例如:`WebStreamer/auto_save.py` 通过POST将Bot返回的连接提交下载任务
 ```python
 import re
@@ -193,16 +204,6 @@ def download_task(url):
         logger.info(f"提交下载任务失败: {resource_name},状态码: {response.status_code}")
 ```
 
-在`WebStreamer/vars.py`的Var类中维护你的变量模板；以便从env读取配置，例如：
-
-```python
-class Var(object):
-    # file auto save
-    AUTO_SAVE = str(environ.get("AUTO_SAVE", "False"))
-    SAVE_SERVER = str(environ.get("SAVE_SERVER", "http://steam-download.private.svc.cluster.local:80"))
-    SAVE_SERVER_PASSWORD = str(environ.get("SAVE_SERVER_PASSWORD", "xxxxxx"))
-```
-
 在`WebStreamer/bot/plugins/stream.py`中使用上述方法
 
 ```python
@@ -214,7 +215,8 @@ async def media_receive_handler(_, m: Message):
     ...
     stream_link = f"{Var.URL}{log_msg.id}/{quote_plus(get_name(m))}?hash={file_hash}"
     ...
-    download_task(stream_link)
+    if Var.AUTO_SAVE:
+        download_task(stream_link)
 ```
 
 运行日志
