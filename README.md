@@ -193,6 +193,16 @@ def download_task(url):
         logger.info(f"提交下载任务失败: {resource_name},状态码: {response.status_code}")
 ```
 
+在`WebStreamer/vars.py`的Var类中维护你的变量模板；以便从env读取配置，例如：
+
+```python
+class Var(object):
+    # file auto save
+    AUTO_SAVE = str(environ.get("AUTO_SAVE", "False"))
+    SAVE_SERVER = str(environ.get("SAVE_SERVER", "http://steam-download.private.svc.cluster.local:80"))
+    SAVE_SERVER_PASSWORD = str(environ.get("SAVE_SERVER_PASSWORD", "xxxxxx"))
+```
+
 在`WebStreamer/bot/plugins/stream.py`中使用上述方法
 
 ```python
