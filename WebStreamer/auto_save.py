@@ -8,6 +8,7 @@ import sys
 import logging
 import hashlib
 import requests
+import datetime
 from urllib.parse import unquote
 # load varsfile
 from WebStreamer.vars import Var
@@ -65,6 +66,11 @@ def download_task(url):
     # 防止url中包含中文乱码导致下载失败
     resource_name = re.search(r'\/([^\/]+)\?', url).group(1)
     resource_name = unquote(resource_name.split('?')[0])
+
+    # 防止名称仅仅只有数字\仅仅只有英文\数字+字母 则重命名为: 日期-tele-原名称
+    basename = resource_name.split('.')[0]
+    if re.match(r'^[a-zA-Z0-9]+$', basename):
+        resource_name = datetime.datetime.now().strftime('%Y%m%d') + '-tele-' + resource_name
 
     headers = {
         'cookie': f'connect.sid={connect_sid}'
